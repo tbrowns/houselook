@@ -9,7 +9,7 @@ export default function Header() {
     <div className="bg-white w-full h-20 flex justify-between items-center px-4 border-b-2 z-10">
       <div className="flex items-center">
         <p className="text-3xl flex items-center text-sky-400">
-          <span className="m-0">Housel</span>
+          <span className="m-0">housel</span>
           <span className="flex m-0 self-end ">
             <LiaEyeSolid />
             <LiaEyeSolid />

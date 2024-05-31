@@ -25,7 +25,10 @@ export default function Dummy() {
     const documentSnapshots = await getDocs(first);
     const properties = documentSnapshots.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data(),
+      town: doc.data().town,
+      city: doc.data().city,
+      rent: doc.data().rent,
+      bedroom: doc.data().bedroom,
       images: [
         doc.data().image2Url,
         doc.data().image3Url,
@@ -53,7 +56,10 @@ export default function Dummy() {
     const documentSnapshots = await getDocs(next);
     const properties = documentSnapshots.docs.map((doc) => ({
       id: doc.id,
-      ...doc.data(),
+      town: doc.data().town,
+      city: doc.data().city,
+      rent: doc.data().rent,
+      bedroom: doc.data().bedroom,
       images: [
         doc.data().image2Url,
         doc.data().image3Url,
@@ -108,7 +114,7 @@ export default function Dummy() {
 
   const downloadAppPrompt = () => {
     return (
-      <div className="fixed top-1/2 flex flex-col items-center justify-center w-auto h-auto z-20 bg-white border border-gray-300 rounded p-4 shadow-lg">
+      <div className="fixed flex flex-col items-center justify-center w-auto h-auto z-20 bg-white border border-gray-300 rounded p-4 shadow-lg">
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-3xl font-bold">Download the app</h1>
           <p className="text-lg">
@@ -120,7 +126,7 @@ export default function Dummy() {
               className="text-black bg-white rounded px-4 py-2 border-2 border-black"
               onClick={() => setShowDownloadPrompt(false)}
             >
-              Close
+              Continue with Chrome
             </button>
             <button
               type="button"
@@ -137,11 +143,9 @@ export default function Dummy() {
     );
   };
 
-  if (loading) return <Loading />;
-
   return (
     <>
-      <div className="w-full gap-10 flex flex-wrap justify-center my-4 mx-4">
+      <div className="w-fit gap-10 flex flex-wrap justify-center my-4 mx-4">
         {showDownloadPrompt && downloadAppPrompt()}
         {allProperties.map((property, index) => {
           const isLastProperty = allProperties.length === index + 1;
@@ -149,7 +153,7 @@ export default function Dummy() {
             <div
               key={property.id}
               ref={isLastProperty ? lastPropertyElementRef : null}
-              className="flex flex-grow flex-col w-64 max-w-96 h-auto bg-white rounded-md shadow-md overflow-hidden my-4 relative"
+              className="flex flex-grow flex-col w-60 max-w-80 h-auto bg-white rounded-md shadow-md overflow-hidden my-4 relative"
             >
               <div
                 className="relative w-full h-auto flex overflow-x-scroll scrollbar-hide scroll-snap-x mandatory group"
@@ -165,23 +169,29 @@ export default function Dummy() {
                       src={image}
                       alt={`property-${imgIndex}`}
                     />
+
+                    <button
+                      type="button"
+                      className={`absolute left-1 top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 opacity-0 group-hover:opacity-75 hover:opacity-100 ${
+                        imgIndex === 0 ? "hidden" : ""
+                      }`}
+                      onClick={() => scrollLeft(index)}
+                    >
+                      <IoIosArrowBack size={20} />
+                    </button>
+                    <button
+                      type="button"
+                      className={`absolute right-1 top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 opacity-0 group-hover:opacity-75 hover:opacity-100 ${
+                        imgIndex === 2 ? "hidden" : ""
+                      }`}
+                      onClick={() => scrollRight(index)}
+                    >
+                      <IoIosArrowForward size={20} />
+                    </button>
                   </div>
                 ))}
-                <button
-                  type="button"
-                  className="absolute left-1 top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 opacity-0 group-hover:opacity-75 hover:opacity-100"
-                  onClick={() => scrollLeft(index)}
-                >
-                  <IoIosArrowBack size={20} />
-                </button>
-                <button
-                  type="button"
-                  className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 opacity-0 group-hover:opacity-75 hover:opacity-100"
-                  onClick={() => scrollRight(index)}
-                >
-                  <IoIosArrowForward size={20} />
-                </button>
               </div>
+
               <div className="my-4">
                 <div className="flex items-center gap-2 h-6 p-2">
                   <p>
