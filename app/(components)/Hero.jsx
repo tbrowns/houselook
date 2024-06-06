@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { IoLocationSharp } from "react-icons/io5";
 import { IoIosArrowBack, IoIosArrowForward, IoMdBed } from "react-icons/io";
@@ -11,7 +13,7 @@ import {
 import { firestoreDB } from "../firebase";
 import Loading from "./Loading";
 
-export default function Dummy() {
+export default function Hero() {
   const [lastVisible, setLastVisible] = useState(null);
   const [allProperties, setAllProperties] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,19 +22,16 @@ export default function Dummy() {
 
   const getProperty = useCallback(async () => {
     setLoading(true);
-    const first = query(collection(firestoreDB, "property"), limit(12));
+    const first = query(collection(firestoreDB, "Properties"), limit(12));
 
     const documentSnapshots = await getDocs(first);
     const properties = documentSnapshots.docs.map((doc) => ({
+      ...doc.data(),
       id: doc.id,
-      town: doc.data().town,
-      city: doc.data().city,
-      rent: doc.data().rent,
-      bedroom: doc.data().bedroom,
       images: [
-        doc.data().image2Url,
-        doc.data().image3Url,
-        doc.data().image4Url,
+        doc.data().images[1],
+        doc.data().images[2],
+        doc.data().images[3],
       ],
     }));
 
@@ -48,22 +47,19 @@ export default function Dummy() {
     setLoading(true);
 
     const next = query(
-      collection(firestoreDB, "property"),
+      collection(firestoreDB, "Properties"),
       startAfter(lastVisible),
       limit(8)
     );
 
     const documentSnapshots = await getDocs(next);
     const properties = documentSnapshots.docs.map((doc) => ({
+      ...doc.data(),
       id: doc.id,
-      town: doc.data().town,
-      city: doc.data().city,
-      rent: doc.data().rent,
-      bedroom: doc.data().bedroom,
       images: [
-        doc.data().image2Url,
-        doc.data().image3Url,
-        doc.data().image4Url,
+        doc.data().images[1],
+        doc.data().images[2],
+        doc.data().images[3],
       ],
     }));
 
@@ -114,7 +110,7 @@ export default function Dummy() {
 
   const downloadAppPrompt = () => {
     return (
-      <div className="fixed flex flex-col items-center justify-center w-auto h-auto z-20 bg-white border border-gray-300 rounded p-4 shadow-lg">
+      <div className="fixed flex flex-col items-center justify-center w-auto h-auto z-20 bg-white border border-gray-300 rounded mx-4 p-4 shadow-lg">
         <div className="flex flex-col items-center justify-center gap-4">
           <h1 className="text-3xl font-bold">Download the app</h1>
           <p className="text-lg">
@@ -133,7 +129,7 @@ export default function Dummy() {
               className="bg-black text-white rounded px-4 py-2"
               onClick={() => setShowDownloadPrompt(false)}
             >
-              <a href="/app-release.apk" download>
+              <a href="/houselook-app.apk" download>
                 Download
               </a>
             </button>
@@ -204,7 +200,7 @@ export default function Dummy() {
                   <p>
                     <IoMdBed />
                   </p>
-                  <p>{property.bedroom}</p>
+                  <p>{property.bed}</p>
                 </div>
 
                 <div className="flex items-center justify-between gap-2 p-2">

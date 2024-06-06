@@ -25,5 +25,4 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 git add README.md
 git commit -m "first commit"
 git branch -M main
-git remote add origin https://github.com/tbrowns/houselook.git
 git push -u origin main
